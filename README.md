@@ -101,4 +101,6 @@ $$
 f^* = \frac{4.73241*0.4347-(1-0.4347)}{4.73241} = 0.3619
 $$
 
-This result indicates that I should bet 36.19% of my account balance on this bet. The problem with such a high number is that if 3 bets go wrong in a row, I bust. Following the original binomial distribution the probability of that occouring is 0.296. In other words almost 1/3 of the time, if I follow such a high risk, I will tend to lose my account. To account for this, I plotted the time to be profitable against a fraction of the kelly criterion in steps of 0.05 from 0 to 1.
+This result indicates that I should bet 36.19% of my account balance on this bet. The problem with such a high number is that if 3 bets go wrong in a row, I bust. Following the original binomial distribution the probability of that occouring is 0.296. In other words almost 1/3 of the time, if I follow such a high risk, I will tend to lose my account. To account for this, I plotted the time to be profitable against a fraction of the kelly criterion in steps of 0.05 from 0 to 1:
+
+![Kelly_Curve](assets/time_to_profit.png)
