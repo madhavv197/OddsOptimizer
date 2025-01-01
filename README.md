@@ -101,4 +101,34 @@ $$
 f^* = \frac{4.73241*0.4347-(1-0.4347)}{4.73241} = 0.3619
 $$
 
-This result indicates that I should bet 36.19% of my account balance on this bet. The problem with such a high number is that if 3 bets go wrong in a row, I bust. Following the original binomial distribution the probability of that occouring is 0.296. In other words almost 1/3 of the time, if I follow such a high risk, I will tend to lose my account. To account for this, I plotted the time to be profitable against a fraction of the kelly criterion in steps of 0.05 from 0 to 1.
+This result indicates that I should bet 36.19% of my account balance on this bet. The problem with such a high number is that if 3 bets go wrong in a row, I bust. Following the original binomial distribution the probability of that occouring is 0.296. In other words almost 1/3 of the time, if I follow such a high risk, I will tend to lose my account. To account for this, I plotted the time to be profitable against a fraction of the kelly criterion in steps of 0.05 from 0 to 1:
+
+![Time_to_profit](assets/time_to_profit.png)
+
+Which shows that 0.05, 0.1, and 0.15 to be the lowest time to profit. In this case, this would make sense. By minimizing my risk, I can still keep playing the game. Below are the balance curves for each of the three kelly fractions. By intuition it would make most sense to take the 0.15, as we maximise our profit while minimizing our risk in the trade off. 
+
+![Kelly_Curve_005](assets/kelly005.png)
+
+![Kelly_Curve_010](assets/kelly010.png)
+
+![Kelly_Curve_015](assets/kelly015.png)
+
+Our new formula, for all matchweeks will be:
+
+$$
+f^* = \frac{0.15\cdot(bp-q)}{b}
+$$
+
+And for matchday 20:
+
+$$
+f^* = \frac{0.15\cdot(4.73241*0.4347-(1-0.4347))}{4.73241} = 0.054289
+$$
+
+Which is 5.43% of our account.
+
+# Further Exploration
+
+1. Different bookmakers have different odds. A change of 0.05 is huge for EV.
+2. Different football prediction websites? Which ones are reliable, and stats and data driven?
+3. Timing of bet. Odds get worse closer to match day. Betting for matchweek n right after matchweek n-1 may be the best time.
