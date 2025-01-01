@@ -1,6 +1,12 @@
 from itertools import combinations
 from functools import reduce
 
+import sys
+import os
+
+project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+sys.path.append(project_root)
+from utils.kelly import kelly_criterion
 matches = [
     {'fixture': 'Tottenham vs Newcastle', 'win_probability': 0.45, 'draw_probability': 0.22, 'loss_probability': 0.33, 'win_odds': 2.9, 'draw_odds': 3.85, 'loss_odds': 2.23},
     {'fixture': 'Bournemouth vs Everton', 'win_probability': 0.54, 'draw_probability': 0.22, 'loss_probability': 0.24, 'win_odds': 1.76, 'draw_odds': 3.85, 'loss_odds': 4.5},
@@ -10,7 +16,7 @@ matches = [
     {'fixture': 'Man City vs West Ham', 'win_probability': 0.76, 'draw_probability': 0.15, 'loss_probability': 0.09, 'win_odds': 1.31, 'draw_odds': 6.0, 'loss_odds': 8.0},
     {'fixture': 'Brighton vs Arsenal', 'win_probability': 0.17, 'draw_probability': 0.21, 'loss_probability': 0.61, 'win_odds': 4.25, 'draw_odds': 3.85, 'loss_odds': 1.78},
     {'fixture': 'Fulham vs Ipswich Town', 'win_probability': 0.69, 'draw_probability': 0.19, 'loss_probability': 0.12, 'win_odds': 1.56, 'draw_odds': 4.25, 'loss_odds': 5.75},
-    {'fixture': 'Liverpool vs Man United', 'win_probability': 1, 'draw_probability': 0, 'loss_probability': 0, 'win_odds': 1.28, 'draw_odds': 6.25, 'loss_odds': 9.25},
+    {'fixture': 'Liverpool vs Man United', 'win_probability': 1, 'draw_probability': 0, 'loss_probability': 0, 'win_odds': 1.24, 'draw_odds': 6.25, 'loss_odds': 9.25},
     {'fixture': 'Wolves vs Nottingham Forest', 'win_probability': 0.1, 'draw_probability': 0.27, 'loss_probability': 0.63, 'win_odds': 3, 'draw_odds': 3.35, 'loss_odds': 2.37}
 ]
 
@@ -52,10 +58,13 @@ def test_all_parlays(matches, max_matches=None):
 
     return all_parlays
 
-all_parlays = test_all_parlays(matches, max_matches=3)
-sorted_parlays = sorted(all_parlays, key=lambda x: x['ev'], reverse=True)
+if __name__ == '__main__':
+    all_parlays = test_all_parlays(matches, max_matches=3)
+    sorted_parlays = sorted(all_parlays, key=lambda x: x['ev'], reverse=True)
+    filtered_parlays = [parlay for parlay in sorted_parlays if parlay['ev'] > 1 and parlay['final_probability'] > 0.3]
 
-for i, parlay_data in enumerate(sorted_parlays[:10], start=1):
-    parlay_details = [(outcome['fixture'], outcome['outcome']) for outcome in parlay_data['parlay']]
-    print(f"Parlay {i}: {parlay_details}, EV: {parlay_data['ev']}, Probability: {parlay_data['final_probability']}, Combined Odds: {parlay_data['odds']}, Ratio: {parlay_data['ratio']}")
-    print("\n")
+
+    for i, parlay_data in enumerate(filtered_parlays[:10], start=1):
+        parlay_details = [(outcome['fixture'], outcome['outcome']) for outcome in parlay_data['parlay']]
+        print(f"Parlay {i}: {parlay_details}, EV: {parlay_data['ev']}, Probability: {parlay_data['final_probability']}, Combined Odds: {parlay_data['odds']}, Ratio: {parlay_data['ratio']}, Kelly: {kelly_criterion(parlay_data['final_probability'], parlay_data['odds'], multiplier=0.15)}")
+        print("\n")

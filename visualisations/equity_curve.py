@@ -4,7 +4,6 @@ import matplotlib.pyplot as plt
 np.random.seed(0)
 
 starting_capital = 100
-kelly_formula = lambda r, p, fraction: fraction * (r * p - (1 - p)) / r
 
 week_durations = [10, 25, 50, 100]
 
