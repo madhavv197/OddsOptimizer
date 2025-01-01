@@ -65,7 +65,7 @@ We can now adjust our initial calculation to limit the number of matches in a si
 
 Parlay 1: [('Tottenham vs Newcastle', 'Win'), ('Liverpool vs Man United', 'Win'), ('Wolves vs Nottingham Forest', 'Loss')], EV: 1.4940742400000002, Probability: 0.28350000000000003, Combined Odds: 8.79744
 
-Parlay 7: [('Fulham vs Ipswich Town', 'Win'), ('Liverpool vs Man United', 'Win'), ('Wolves vs Nottingham Forest', 'Loss')], EV: 1.0571812352000003, Probability: 0.4347, Combined Odds: 4.732416000000001, Ratio: 91.85583008763388
+Parlay 7: [('Fulham vs Ipswich Town', 'Win'), ('Liverpool vs Man United', 'Win'), ('Wolves vs Nottingham Forest', 'Loss')], EV: 1.0571812352000003, Probability: 0.4347, Combined Odds: 4.73241
 
 Plotting both equity curves for much smaller timeframes, we see that for parlay 1:
 
@@ -81,3 +81,24 @@ Which is quite similar to parlay 1, with a smaller drawdown, and faster profitab
 
 An important thing to note is that the fixtures change every week, along with the odds! Achieving a positive EV of 1.49 may not always be possible. In that sense, we must try to stick as closely as possible to 1 strategy, that may appear more reliably. In this case, achieving an EV of over 1.05, with at least a probability of 0.4 should be our goal. In other words, we aim for higher probability reliable 3 way parlays.
 
+# Risk
+
+The question is now how much I should bet per parlay. The kelly criterion explains a method in order to determine how much I should risk per bet, according to formula:
+
+$$
+f^* = \frac{bp-q}{b}
+$$
+
+where:
+- $f^*$ is the bet size.
+- $b$ is the net odds.
+- $p$ is the probability of winning.
+- $q = (1-p)$ is the probability of losing.
+
+This means that for every matchweek, we size our bets differently, according to the specific odds, and probabilities we get. Note that the strategy will remain the same, we still aim for high probability bets, but we vary how much we bet according to the criterion. For example in matchday 20, as seen above for parlay 7, we have Probability: 0.4347, and Combined Odds: 4.73241. Thus we get bet size as:
+
+$$
+f^* = \frac{4.73241*0.4347-(1-0.4347)}{4.73241} = 0.3619
+$$
+
+This result indicates that I should bet 36.19% of my account balance on this bet. The problem with such a high number is that if 3 bets go wrong in a row, I bust. Following the original binomial distribution the probability of that occouring is 0.296. In other words almost 1/3 of the time, if I follow such a high risk, I will tend to lose my account. To account for this, I plotted the time to be profitable against a fraction of the kelly criterion in steps of 0.05 from 0 to 1.
