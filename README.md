@@ -126,3 +126,9 @@ f^* = \frac{0.15\cdot(4.73241*0.4347-(1-0.4347))}{4.73241} = 0.054289
 $$
 
 Which is 5.43% of our account.
+
+# Further Exploration
+
+1. Different bookmakers have different odds. A change of 0.05 is huge for EV.
+2. Different football prediction websites? Which ones are reliable, and stats and data driven?
+3. Timing of bet. Odds get worse closer to match day. Betting for matchweek n right after matchweek n-1 may be the best time.
