@@ -4,7 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # Parameters for the Binomial Model
-n_matches = 9  # Number of matches in the parlay
+n_matches = 10  # Number of matches in the parlay
 p_correct = 1 / 3  # Probability of predicting a match correctly
 n_simulations = 10000  # Number of parlay simulations
 

@@ -7,11 +7,11 @@ np.random.seed(0)
 
 starting_capital = 100  # Initial capital
 stake_per_parlay = 1  # Fixed stake per parlay
-probability_per_parlay =  0.0034802086868647  # Odds for hitting all 9 matches
-return_per_parlay = 931 # Total return multiplier for a win
+probability_per_parlay =  0.4347  # Odds for hitting all 9 matches
+return_per_parlay = 4.732416 # Total return multiplier for a win
 
 # Simulation durations
-week_durations = [100,1000,10000, 100000]
+week_durations = [10,25,50,100]
 
 # Function to simulate capital history for a given number of weeks
 def simulate_capital(weeks):
@@ -29,6 +29,8 @@ def simulate_capital(weeks):
 # Create subplots
 fig, axes = plt.subplots(2, 2, figsize=(15, 15), layout= 'constrained')
 axes = axes.flatten()
+
+fig.suptitle(f"Equity Curve for probability {probability_per_parlay:.2f}", fontsize=16)
 
 for i, weeks in enumerate(week_durations):
     capital_history = simulate_capital(weeks)

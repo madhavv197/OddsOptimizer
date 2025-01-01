@@ -52,7 +52,7 @@ def test_all_parlays(matches, max_matches=None):
 
     return all_parlays
 
-all_parlays = test_all_parlays(matches, max_matches=None)
+all_parlays = test_all_parlays(matches, max_matches=3)
 sorted_parlays = sorted(all_parlays, key=lambda x: x['ev'], reverse=True)
 
 for i, parlay_data in enumerate(sorted_parlays[:10], start=1):
