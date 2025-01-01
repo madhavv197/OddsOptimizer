@@ -1,4 +1,4 @@
-# A Dive into Positive EV Betting in the Premier League
+# Positive EV Betting in the Premier League
 
 ![HighMatchDiagram](assets/banner.png)
 
