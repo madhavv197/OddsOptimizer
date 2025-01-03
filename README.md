@@ -95,7 +95,12 @@ Running simulations in the context of football is hard. A high number of simulat
 
 For these limitations of simulation numbers, I used multiple random seeds to generate varying scenarios for the same events. For changing probabilities and odds, I used stratified sampling, using a uniform distribution across the number of simulations to get a range of probabilities and odds. To reduce the impact of large changes between probabilities within each matchweek, I made sure that the stratification remained within a predefined range. After running these simulations, I generated the following graphs:
 
+![equity](assets/equity_curve_parlays.png)
+
+![metrics](assets/metrics.png)
+
 It is interesting to understand the sense behind these metrics. Although in the long run, higher parays achieve higher EVs, it is simple for us to note that two seasons just isnt enough even for parlays bigger than five to find profitability. I ran this simulation over 1000 seeds and we find profitability for parlays up to 5! Now I ask myself the question, can I diversify my bets by including positive EV parlays for matches I havent bet on?
+
 
 
 
