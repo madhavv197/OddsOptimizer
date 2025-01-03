@@ -49,10 +49,6 @@ The reality was shown in the following equity curve. It would be slow and dreary
 
 ---
 
-# Finding The Optimal Parlay Size (n)
-
-The problem now comes down to finding the right balance between profitability, and reliability. If we had $n = 10$ we would have the highest profitability but lowest reliability. As seen above, we may goes thousands of matchweeks before we hit a parlay. If we had $n=1$ it may be the most reliable, but we would have the lowest amount of profitability. 
-
 # Risk
 
 The question is now how much I should bet per parlay. The kelly criterion explains a method in order to determine how much I should risk per bet, according to formula:
@@ -67,7 +63,7 @@ where:
 - $p$ is the probability of winning.
 - $q = (1-p)$ is the probability of losing.
 
-This means that for every matchweek, we size our bets differently, according to the specific odds, and probabilities we get. Note that the strategy will remain the same, we still aim for high probability bets, but we vary how much we bet according to the criterion. For example in matchday 20, as seen above for parlay 7, we have Probability: 0.4347, and Combined Odds: 4.73241. Thus we get bet size as:
+This means that for every matchweek, we size our bets differently, according to the specific odds, and probabilities we get. Note that the strategy will remain the same, we still aim for high probability bets, but we vary how much we bet according to the criterion. For example in matchday 20, as an arbitrary choice of a parlay, we have Probability: 0.4347, and Combined Odds: 4.73241. Thus we get bet size as:
 
 $$
 f^* = \frac{4.73241*0.4347-(1-0.4347)}{4.73241} = 0.3619
@@ -91,13 +87,18 @@ $$
 f^* = \frac{0.15\cdot(bp-q)}{b}
 $$
 
-And for matchday 20:
+# Finding The Optimal Parlay Size (n)
 
-$$
-f^* = \frac{0.15\cdot(4.73241*0.4347-(1-0.4347))}{4.73241} = 0.054289
-$$
+To address the trade-off between profitability and reliability, I did Monte Carlo simulations. With a parlay size of $n=10$, profitability is maximized, but reliability is significantly reduced as thousands of matchweeks may pass before hitting a parlay. Conversely, a parlay size of $n=1$ offers the most reliability but at the cost of lower profitability.
 
-Which is 5.43% of our account.
+Running simulations in the context of football is hard. A high number of simulations might be unrealistic, and the inherent volatility of probabilities and their associated odds must be accounted for. This introduces multiple factors to consider.
+
+For these limitations of simulation numbers, I used multiple random seeds to generate varying scenarios for the same events. For changing probabilities and odds, I used stratified sampling, using a uniform distribution across the number of simulations to get a range of probabilities and odds. To reduce the impact of large changes between probabilities within each matchweek, I made sure that the stratification remained within a predefined range. After running these simulations, I generated the following graphs:
+
+It is interesting to understand the sense behind these metrics. Although in the long run, higher parays achieve higher EVs, it is simple for us to note that two seasons just isnt enough even for parlays bigger than five to find profitability. I ran this simulation over 1000 seeds and we find profitability for parlays up to 5! Now I ask myself the question, can I diversify my bets by including positive EV parlays for matches I havent bet on?
+
+
+
 
 # Further Exploration
 
