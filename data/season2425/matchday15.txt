@@ -1,0 +1,10 @@
+{'fixture': 'Bournemouth vs Tottenham', 'win_probability': 0.25, 'draw_probability': 0.27, 'loss_probability': 0.48, 'win_odds': 3.80, 'draw_odds': 3.60, 'loss_odds': 2.10},
+{'fixture': 'Man United vs Nottingham Forest', 'win_probability': 0.68, 'draw_probability': 0.20, 'loss_probability': 0.12, 'win_odds': 1.46, 'draw_odds': 4.80, 'loss_odds': 8.20},
+{'fixture': 'Aston Villa vs Southampton', 'win_probability': 0.52, 'draw_probability': 0.25, 'loss_probability': 0.23, 'win_odds': 1.90, 'draw_odds': 3.85, 'loss_odds': 4.10},
+{'fixture': 'Brentford vs Newcastle', 'win_probability': 0.31, 'draw_probability': 0.28, 'loss_probability': 0.41, 'win_odds': 3.25, 'draw_odds': 3.45, 'loss_odds': 2.40},
+{'fixture': 'Crystal Palace vs Man City', 'win_probability': 0.14, 'draw_probability': 0.18, 'loss_probability': 0.68, 'win_odds': 7.50, 'draw_odds': 5.00, 'loss_odds': 1.45},
+{'fixture': 'Fulham vs Arsenal', 'win_probability': 0.29, 'draw_probability': 0.26, 'loss_probability': 0.45, 'win_odds': 3.50, 'draw_odds': 3.85, 'loss_odds': 2.20},
+{'fixture': 'Ipswich Town vs Bournemouth', 'win_probability': 0.37, 'draw_probability': 0.29, 'loss_probability': 0.34, 'win_odds': 2.65, 'draw_odds': 3.40, 'loss_odds': 2.85},
+{'fixture': 'Leicester City vs Brighton', 'win_probability': 0.49, 'draw_probability': 0.27, 'loss_probability': 0.24, 'win_odds': 2.05, 'draw_odds': 3.70, 'loss_odds': 4.10},
+{'fixture': 'Tottenham vs Chelsea', 'win_probability': 0.36, 'draw_probability': 0.28, 'loss_probability': 0.36, 'win_odds': 2.70, 'draw_odds': 3.60, 'loss_odds': 2.70},
+{'fixture': 'West Ham vs Wolves', 'win_probability': 0.44, 'draw_probability': 0.30, 'loss_probability': 0.26, 'win_odds': 2.25, 'draw_odds': 3.35, 'loss_odds': 3.80}
