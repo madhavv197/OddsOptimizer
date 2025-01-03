@@ -99,9 +99,16 @@ For these limitations of simulation numbers, I used multiple random seeds to gen
 
 ![metrics](assets/metrics.png)
 
-It is interesting to understand the sense behind these metrics. Although in the long run, higher parays achieve higher EVs, it is simple for us to note that two seasons just isnt enough even for parlays bigger than five to find profitability. I ran this simulation over 1000 seeds and we find profitability for parlays up to 5! Now I ask myself the question, can I diversify my bets by including positive EV parlays for matches I havent bet on?
+It is interesting to understand the sense behind these metrics. Although in the long run, higher parays achieve higher EVs, it is simple for us to note that two seasons just isnt enough even for parlays bigger than five to find profitability. I ran this simulation over 1000 seeds and we find profitability for parlays up to 5! Now I ask myself the question, can I diversify my bets by including positive EV parlays for matches I havent bet on? I ran simulations for four different combination bets, following the distribution below:
 
+| Parlay Size | Outcome 1 | Outcome 2 | Outcome 3 | Outcome 4 |
+|-------------|-----------|-----------|-----------|-----------|
+| 1           | 1         | 1         | 3         | 4         |
+| 2           | 1         | 3         | 2         | 3         |
+| 3           | 1         | 1         | 1         | 0         |
+| 4           | 1         | 0         | 0         | 0         |
 
+I can now also remove parlays greater than and equal to 5. They provide probabilities too low to be worth it to bet on. Now it is important to note that each combination adds up to ten matches. This means that I essentially bet on every single match every matchweek. In each combination bet, one match is only used once. This avoids redundancy in the bets. 
 
 
 
