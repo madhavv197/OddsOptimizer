@@ -6,6 +6,10 @@ I’m a football fan who likes to bet and also likes math. I thought it would be
 
 ---
 
+# WORK IN PROGRESS DO NOT TRUST GRAPHS
+
+---
+
 # Initial Approach
 
 ## Collecting the Data
