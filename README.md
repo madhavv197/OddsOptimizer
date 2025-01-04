@@ -12,7 +12,11 @@ I’m a football fan who likes to bet and also likes math. I thought it would be
 
 # Initial Approach
 
-## Collecting the Data
+## Understanding The Strategy
+
+I use Opta’s supercomputer predictions, which crunch all kinds of stats to predict match outcomes like home wins, draws, and away wins. Then, I compare those probabilities to what the betting sites are offering. When there’s a big difference, that’s where I dig in. I calculate expected value (EV) to figure out if a bet is worth it. Basically, it’s about betting when Opta’s numbers suggest a better chance than the odds imply. I stick to bets with a clear edge and keep track of everything to see how it plays out over time. That said, there are a few risks to watch out for: Opta’s predictions aren’t always perfect—unexpected injuries or game-day surprises can throw things off. Odds from betting sites can change fast, too, so a good opportunity might disappear before you can act. And even with a positive EV, betting has its ups and downs, so you’ve got to manage your bankroll carefully to handle any losing streaks. With patience though, the goal is to turn those small advantages into steady gains.
+
+## Collecting The Data
 
 In order to find the expected value of any bet, I need the probabilities of the thing I will be betting as well as the return on that bet. To start with, I grabbed matchday odds from a local betting app, and got predictions from Opta’s supercomputer to get probabilities for win, draw, and loss for each match.
 
@@ -114,7 +118,12 @@ It is interesting to understand the sense behind these metrics. Although in the 
 
 I can now also remove parlays greater than and equal to 5. They provide probabilities too low to be worth it to bet on. Now it is important to note that each combination adds up to ten matches. This means that I essentially bet on every single match every matchweek. In each combination bet, one match is only used once. This avoids redundancy in the bets. 
 
-
+| Parlay Size | Outcome 1 | Outcome 2 | Outcome 3 | Outcome 4 | Outcome 5 | Outcome 6 |
+|-------------|-----------|-----------|-----------|-----------|-----------|-----------|
+| 1           | 2         | 3         | 4         | 5         | 6         | 4         |
+| 2           | 2         | 2         | 2         | 2         | 2         | 3         |
+| 3           | 0         | 0         | 0         | 0         | 0         | 0         |
+| 4           | 0         | 0         | 0         | 0         | 0         | 0         |
 
 # Further Exploration
 
