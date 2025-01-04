@@ -95,8 +95,20 @@ Running simulations in the context of football is hard. A high number of simulat
 
 For these limitations of simulation numbers, I used multiple random seeds to generate varying scenarios for the same events. For changing probabilities and odds, I used stratified sampling, using a uniform distribution across the number of simulations to get a range of probabilities and odds. To reduce the impact of large changes between probabilities within each matchweek, I made sure that the stratification remained within a predefined range. After running these simulations, I generated the following graphs:
 
-It is interesting to understand the sense behind these metrics. Although in the long run, higher parays achieve higher EVs, it is simple for us to note that two seasons just isnt enough even for parlays bigger than five to find profitability. I ran this simulation over 1000 seeds and we find profitability for parlays up to 5! Now I ask myself the question, can I diversify my bets by including positive EV parlays for matches I havent bet on?
+![equity](assets/equity_curve_parlays.png)
 
+![metrics](assets/metrics.png)
+
+It is interesting to understand the sense behind these metrics. Although in the long run, higher parays achieve higher EVs, it is simple for us to note that two seasons just isnt enough even for parlays bigger than five to find profitability. I ran this simulation over 1000 seeds and we find profitability for parlays up to 5! Now I ask myself the question, can I diversify my bets by including positive EV parlays for matches I havent bet on? I ran simulations for four different combination bets, following the distribution below:
+
+| Parlay Size | Outcome 1 | Outcome 2 | Outcome 3 | Outcome 4 |
+|-------------|-----------|-----------|-----------|-----------|
+| 1           | 1         | 1         | 3         | 4         |
+| 2           | 1         | 3         | 2         | 3         |
+| 3           | 1         | 1         | 1         | 0         |
+| 4           | 1         | 0         | 0         | 0         |
+
+I can now also remove parlays greater than and equal to 5. They provide probabilities too low to be worth it to bet on. Now it is important to note that each combination adds up to ten matches. This means that I essentially bet on every single match every matchweek. In each combination bet, one match is only used once. This avoids redundancy in the bets. 
 
 
 
