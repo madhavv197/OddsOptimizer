@@ -5,20 +5,45 @@ from collections import defaultdict
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.append(project_root)
 np.set_printoptions(precision=10, suppress=False)
-from src.ev_calc import test_all_parlays
+from src.ev_calc import test_all_parlays, find_best_parlay_combinations_with_custom_counts
 from utils.loader import load_matches_from_folder
 from utils.kelly import kelly_criterion
 
-def get_data_from_matchdays(matchday_data):
+from statistics import median
+
+from statistics import median
+from collections import defaultdict
+
+def get_data_from_matchdays(matchday_data, max_matches, custom_counts):
     """
-    Extract probabilities and odds for each parlay size from matchday data.
+    Extracts metrics for each custom parlay count, grouped by parlay size, and returns structured data.
     """
     probabilities = []
     odds = []
     evs_dict = defaultdict(list)
     kellys_dict = defaultdict(list)
+
+    # Initialize metrics for each custom parlay count
+    custom_combination_metrics = {tuple(count.items()): defaultdict(lambda: {'probabilities': [], 'evs': [], 'odds': [], 'kellys' : [],'count': 0}) for count in custom_counts}
+
     for matchday in matchday_data:
-        for parlay_size in range(1, 11):
+        for custom_parlay_count in custom_counts:
+            custom_key = tuple(custom_parlay_count.items())
+            best_combinations = find_best_parlay_combinations_with_custom_counts(matchday, custom_parlay_count)
+
+            if best_combinations:
+                for parlay_data in best_combinations[0]['combination']:
+                    parlay_size = len(parlay_data['parlay'])
+                    current_metrics = custom_combination_metrics[custom_key][parlay_size]
+
+                    # Append values for later median calculation
+                    current_metrics['probabilities'].append(parlay_data['final_probability'])
+                    current_metrics['evs'].append(parlay_data['ev'])
+                    current_metrics['odds'].append(parlay_data['odds'])
+                    current_metrics['kellys'].append(parlay_data['kelly'])
+                    current_metrics['count'] += 1
+
+        for parlay_size in range(1, max_matches + 1):
             parlays = test_all_parlays(matches=matchday, max_matches=parlay_size)
             if parlays:
                 choice = parlays[0]
@@ -29,7 +54,28 @@ def get_data_from_matchdays(matchday_data):
                     kelly_criterion(choice['final_probability'], choice['odds'], multiplier=0.15)
                 )
 
-    return probabilities, odds, evs_dict, kellys_dict
+    # Finalize the metrics for each custom parlay count
+    final_combination_metrics = []
+    for custom_key, metrics_by_size in custom_combination_metrics.items():
+        custom_metrics_list = []
+        for parlay_size, metrics in metrics_by_size.items():
+            custom_metrics_list.append({
+                'parlay_size': parlay_size,
+                'median_probability': median(metrics['probabilities']) if metrics['probabilities'] else 0,
+                'median_ev': median(metrics['evs']) if metrics['evs'] else 0,
+                'median_odds': median(metrics['odds']) if metrics['odds'] else 0,
+                'median_kelly': median(metrics['kellys']) if metrics['kellys'] else 0,
+                'count': metrics['count']
+            })
+        final_combination_metrics.append({
+            'custom_parlay_count': dict(custom_key),
+            'metrics': custom_metrics_list
+        })
+
+    return probabilities, odds, evs_dict, kellys_dict, final_combination_metrics
+
+
+
 
 
 def filter_data_with_discrepancy(data, key, threshold=1.0):
@@ -77,8 +123,6 @@ def create_strata(data, key, num_bins=50, threshold=1.0):
         if max_val == bins[-1]:
             binned_data[f"{bins[-2]:.2f}-{bins[-1]:.2f}"].append(max_val)
 
-        print(f'{key} binned data: ', binned_data)
-
         strata[parlay_size] = binned_data
 
     return strata
@@ -90,6 +134,7 @@ def get_probability_strata(probabilities, num_bins=50, threshold=1.0):
 def get_odds_strata(odds, num_bins=50, threshold=1.0):
 
     return create_strata(odds, 'odds', num_bins, threshold)
+
 
 def get_all_strata(probabilities, odds, prob_num_bins=50, odds_num_bins=50):
     prob_strata = get_probability_strata(probabilities, num_bins=prob_num_bins)
@@ -112,8 +157,11 @@ def stratified_sampling(strata, parlay_size, num_samples):
 
     return samples
 
+
 def get_other_metrics(metric_dict, parlay_size):
     return metric_dict.get(parlay_size, [])
+
+
 
 if __name__ == "__main__":
     prob_strata, odds_strata = get_all_strata(0.1,50)  
