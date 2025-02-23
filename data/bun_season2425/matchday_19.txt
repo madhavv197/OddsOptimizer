@@ -1,0 +1,9 @@
+{'fixture': 'Wolfsburg vs Holstein Kiel', 'win_probability': 0.63, 'draw_probability': 0.19, 'loss_probability': 0.17, 'win_odds': 1.48, 'draw_odds': 4.75, 'loss_odds': 6.00},
+{'fixture': 'Mainz vs VfB Stuttgart', 'win_probability': 0.34, 'draw_probability': 0.25, 'loss_probability': 0.39, 'win_odds': 2.80, 'draw_odds': 3.50, 'loss_odds': 2.44},
+{'fixture': 'RB Leipzig vs Leverkusen', 'win_probability': 0.27, 'draw_probability': 0.24, 'loss_probability': 0.48, 'win_odds': 3.70, 'draw_odds': 3.90, 'loss_odds': 1.91},
+{'fixture': 'Augsburg vs Heidenheim', 'win_probability': 0.49, 'draw_probability': 0.25, 'loss_probability': 0.25, 'win_odds': 1.89, 'draw_odds': 3.65, 'loss_odds': 4.00},
+{'fixture': 'SC Freiburg vs Bayern', 'win_probability': 0.13, 'draw_probability': 0.18, 'loss_probability': 0.67, 'win_odds': 8.00, 'draw_odds': 5.75, 'loss_odds': 1.33},
+{'fixture': 'Dortmund vs Werder', 'win_probability': 0.56, 'draw_probability': 0.21, 'loss_probability': 0.22, 'win_odds': 1.63, 'draw_odds': 4.50, 'loss_odds': 4.75},
+{'fixture': 'Mönchengladbach vs VfL Bochum', 'win_probability': 0.53, 'draw_probability': 0.22, 'loss_probability': 0.23, 'win_odds': 1.72, 'draw_odds': 4.00, 'loss_odds': 4.50},
+{'fixture': 'Hoffenheim vs Eintracht Frankfurt', 'win_probability': 0.32, 'draw_probability': 0.26, 'loss_probability': 0.41, 'win_odds': 3.10, 'draw_odds': 3.60, 'loss_odds': 2.22},
+{'fixture': 'FC St. Pauli vs Union Berlin', 'win_probability': 0.38, 'draw_probability': 0.28, 'loss_probability': 0.32, 'win_odds': 2.51, 'draw_odds': 3.10, 'loss_odds': 3.00}

@@ -1,0 +1,11 @@
+{'fixture': 'Torino vs Cagliari', 'win_probability': 0.42, 'draw_probability': 0.27, 'loss_probability': 0.29, 'win_odds': 2.22, 'draw_odds': 3.10, 'loss_odds': 3.60},
+{'fixture': 'Como vs Atalanta', 'win_probability': 0.25, 'draw_probability': 0.25, 'loss_probability': 0.49, 'win_odds': 4, 'draw_odds': 3.70, 'loss_odds': 1.88},
+{'fixture': 'Napoli vs Juventus', 'win_probability': 0.45, 'draw_probability': 0.28, 'loss_probability': 0.25, 'win_odds': 2.16, 'draw_odds': 3.10, 'loss_odds': 3.80},
+{'fixture': 'Empoli vs Bologna', 'win_probability': 0.26, 'draw_probability': 0.27, 'loss_probability': 0.45, 'win_odds': 3.85, 'draw_odds': 3.25, 'loss_odds': 2.07},
+{'fixture': 'AC Milan vs Parma', 'win_probability': 0.69, 'draw_probability': 0.17, 'loss_probability': 0.13, 'win_odds': 1.30, 'draw_odds': 6.00, 'loss_odds': 8.75},
+{'fixture': 'Udinese vs Roma', 'win_probability': 0.30, 'draw_probability': 0.27, 'loss_probability': 0.42, 'win_odds': 3.30, 'draw_odds': 3.30, 'loss_odds': 2.25},
+{'fixture': 'Lecce vs Inter', 'win_probability': 0.13, 'draw_probability': 0.18, 'loss_probability': 0.68, 'win_odds': 9.00, 'draw_odds': 5.25, 'loss_odds': 1.33},
+{'fixture': 'Lazio vs Fiorentina', 'win_probability': 0.48, 'draw_probability': 0.25, 'loss_probability': 0.26, 'win_odds': 1.99, 'draw_odds': 3.45, 'loss_odds': 3.85},
+{'fixture': 'Venezia vs Hellas Verona', 'win_probability': 0.44, 'draw_probability': 0.26, 'loss_probability': 0.29, 'win_odds': 2.18, 'draw_odds': 3.45, 'loss_odds': 3.30},
+{'fixture': 'Genoa vs Monza', 'win_probability': 0.43, 'draw_probability': 0.28, 'loss_probability': 0.27, 'win_odds': 2.26, 'draw_odds': 3.05, 'loss_odds': 3.60}
+    

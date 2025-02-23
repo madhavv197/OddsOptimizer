@@ -1,0 +1,10 @@
+{'fixture': 'Las Palmas vs Osasuna', 'win_probability': 0.39, 'draw_probability': 0.28, 'loss_probability': 0.31, 'win_odds': 2.50, 'draw_odds': 3.10, 'loss_odds': 3.05},
+{'fixture': 'Mallorca vs Real Betis', 'win_probability': 0.43, 'draw_probability': 0.28, 'loss_probability': 0.27, 'win_odds': 2.24, 'draw_odds': 3.05, 'loss_odds': 3.65},
+{'fixture': 'Sevilla vs Espanyol', 'win_probability': 0.54, 'draw_probability': 0.24, 'loss_probability': 0.20, 'win_odds': 1.71, 'draw_odds': 3.75, 'loss_odds': 5.00},
+{'fixture': 'Valladolid vs Real Madrid', 'win_probability': 0.12, 'draw_probability': 0.16, 'loss_probability': 0.71, 'win_odds': 10.50, 'draw_odds': 6.75, 'loss_odds': 1.24},
+{'fixture': 'Barcelona vs Valencia', 'win_probability': 0.74, 'draw_probability': 0.15, 'loss_probability': 0.10, 'win_odds': 1.20, 'draw_odds': 7.50, 'loss_odds': 12.50},
+{'fixture': 'Rayo Vallecano vs Girona', 'win_probability': 0.35, 'draw_probability': 0.29, 'loss_probability': 0.34, 'win_odds': 2.75, 'draw_odds': 3.00, 'loss_odds': 2.85},
+{'fixture': 'Real Sociedad vs Getafe', 'win_probability': 0.53, 'draw_probability': 0.27, 'loss_probability': 0.18, 'win_odds': 1.76, 'draw_odds': 3.25, 'loss_odds': 5.75},
+{'fixture': 'Athletic Club vs Leganes', 'win_probability': 0.66, 'draw_probability': 0.19, 'loss_probability': 0.14, 'win_odds': 1.37, 'draw_odds': 4.75, 'loss_odds': 8.75},
+{'fixture': 'Alavés vs Celta Vigo', 'win_probability': 0.42, 'draw_probability': 0.26, 'loss_probability': 0.30, 'win_odds': 2.65, 'draw_odds': 3.05, 'loss_odds': 2.90},
+{'fixture': 'Atlético Madrid vs Villarreal', 'win_probability': 0.54, 'draw_probability': 0.22, 'loss_probability': 0.22, 'win_odds': 1.67, 'draw_odds': 4.25, 'loss_odds': 4.75}

@@ -1,0 +1,11 @@
+{'fixture': 'Cambridge Utd vs Mansfield Town', 'win_probability': 0.29, 'draw_probability': 0.24, 'loss_probability': 0.46, 'win_odds': 3.40, 'draw_odds': 3.40, 'loss_odds': 2.05},
+{'fixture': 'Huddersfield Town vs Bolton Wanderers', 'win_probability': 0.48, 'draw_probability': 0.25, 'loss_probability': 0.25, 'win_odds': 1.95, 'draw_odds': 3.50, 'loss_odds': 3.65},
+{'fixture': 'Barnsley FC vs Stevenage FC', 'win_probability': 0.53, 'draw_probability': 0.23, 'loss_probability': 0.22, 'win_odds': 1.83, 'draw_odds': 3.40, 'loss_odds': 4.00},
+{'fixture': 'Burton Albion vs Rotherham United', 'win_probability': 0.25, 'draw_probability': 0.23, 'loss_probability': 0.51, 'win_odds': 3.75, 'draw_odds': 3.40, 'loss_odds': 1.93},
+{'fixture': 'Charlton Athletic vs Shrewsbury Town', 'win_probability': 0.64, 'draw_probability': 0.18, 'loss_probability': 0.16, 'win_odds': 1.56, 'draw_odds': 3.75, 'loss_odds': 5.75},
+{'fixture': 'Exeter City vs Blackpool FC', 'win_probability': 0.37, 'draw_probability': 0.26, 'loss_probability': 0.36, 'win_odds': 2.80, 'draw_odds': 3.25, 'loss_odds': 2.40},
+{'fixture': 'Leyton Orient FC vs Reading', 'win_probability': 0.45, 'draw_probability': 0.26, 'loss_probability': 0.27, 'win_odds': 1.69, 'draw_odds': 3.85, 'loss_odds': 4.50},
+{'fixture': 'Lincoln City vs Peterborough United', 'win_probability': 0.50, 'draw_probability': 0.25, 'loss_probability': 0.24, 'win_odds': 1.93, 'draw_odds': 3.40, 'loss_odds': 3.65},
+{'fixture': 'Stockport County FC vs Crawley Town', 'win_probability': 0.59, 'draw_probability': 0.21, 'loss_probability': 0.19, 'win_odds': 1.43, 'draw_odds': 4.50, 'loss_odds': 6.50},
+{'fixture': 'Wigan Athletic vs Bristol Rovers', 'win_probability': 0.59, 'draw_probability': 0.21, 'loss_probability': 0.19, 'win_odds': 1.71, 'draw_odds': 3.50, 'loss_odds': 4.75},
+{'fixture': 'Wycombe Wanderers vs Northampton Town', 'win_probability': 0.68, 'draw_probability': 0.17, 'loss_probability': 0.13, 'win_odds': 1.33, 'draw_odds': 4.75, 'loss_odds': 8.00}

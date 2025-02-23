@@ -1,0 +1,9 @@
+{'fixture': 'Auxerre vs St-Étienne', 'win_probability': 0.48, 'draw_probability': 0.24, 'loss_probability': 0.26, 'win_odds': 2.02, 'draw_odds': 3.55, 'loss_odds': 3.65},
+{'fixture': 'Monaco vs Rennes', 'win_probability': 0.53, 'draw_probability': 0.23, 'loss_probability': 0.23, 'win_odds': 1.73, 'draw_odds': 3.95, 'loss_odds': 4.50},
+{'fixture': 'Strasbourg vs LOSC', 'win_probability': 0.35, 'draw_probability': 0.26, 'loss_probability': 0.37, 'win_odds': 2.75, 'draw_odds': 3.40, 'loss_odds': 2.54},
+{'fixture': 'PSG vs Reims', 'win_probability': 0.73, 'draw_probability': 0.15, 'loss_probability': 0.11, 'win_odds': 1.25, 'draw_odds': 6.50, 'loss_odds': 10.00},
+{'fixture': 'Le Havre vs Brest', 'win_probability': 0.30, 'draw_probability': 0.29, 'loss_probability': 0.40, 'win_odds': 3.30, 'draw_odds': 3.15, 'loss_odds': 2.34},
+{'fixture': 'Nantes vs Lyon', 'win_probability': 0.29, 'draw_probability': 0.26, 'loss_probability': 0.43, 'win_odds': 3.50, 'draw_odds': 3.55, 'loss_odds': 2.07},
+{'fixture': 'Lens vs Angers', 'win_probability': 0.62, 'draw_probability': 0.20, 'loss_probability': 0.16, 'win_odds': 1.44, 'draw_odds': 4.50, 'loss_odds': 7.25},
+{'fixture': 'Toulouse vs Montpellier', 'win_probability': 0.56, 'draw_probability': 0.22, 'loss_probability': 0.20, 'win_odds': 1.62, 'draw_odds': 4.00, 'loss_odds': 5.25},
+{'fixture': 'Nice vs Marseille', 'win_probability': 0.34, 'draw_probability': 0.26, 'loss_probability': 0.39, 'win_odds': 2.85, 'draw_odds': 3.50, 'loss_odds': 2.42}

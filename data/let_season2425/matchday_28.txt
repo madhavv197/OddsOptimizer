@@ -1,0 +1,12 @@
+{'fixture': 'Newport vs Swindon', 'win_probability': 0.46, 'draw_probability': 0.26, 'loss_probability': 0.28, 'win_odds': 3.4, 'draw_odds': 3.5, 'loss_odds': 1.98},
+{'fixture': 'Bradford vs Walsall', 'win_probability': 0.37, 'draw_probability': 0.26, 'loss_probability': 0.35, 'win_odds': 2.70, 'draw_odds': 3.15, 'loss_odds': 2.5},
+{'fixture': 'MK Dons vs Wimbledon', 'win_probability': 0.38, 'draw_probability': 0.26, 'loss_probability': 0.34, 'win_odds': 2.6, 'draw_odds': 3.25, 'loss_odds': 2.5},
+{'fixture': 'Barrow vs Grimsby', 'win_probability': 0.44, 'draw_probability': 0.26, 'loss_probability': 0.28, 'win_odds': 2.1, 'draw_odds': 3.25, 'loss_odds': 3.4},
+{'fixture': 'Cheltenham vs Salford', 'win_probability': 0.43, 'draw_probability': 0.26, 'loss_probability': 0.29, 'win_odds': 3.4, 'draw_odds': 3.15, 'loss_odds': 2.1},
+{'fixture': 'Chesterfield vs Port Vale', 'win_probability': 0.39, 'draw_probability': 0.26, 'loss_probability': 0.33, 'win_odds': 2.1, 'draw_odds': 3.4, 'loss_odds': 3.25},
+{'fixture': 'Colchester vs Morecambe', 'win_probability': 0.51, 'draw_probability': 0.24, 'loss_probability': 0.24, 'win_odds': 1.65, 'draw_odds': 3.65, 'loss_odds': 5},
+{'fixture': 'Crewe vs Accrington', 'win_probability': 0.57, 'draw_probability': 0.20, 'loss_probability': 0.22, 'win_odds': 1.83, 'draw_odds': 3.4, 'loss_odds': 4.00},
+{'fixture': 'Doncaster vs Harrogate', 'win_probability': 0.61, 'draw_probability': 0.20, 'loss_probability': 0.18, 'win_odds': 1.38, 'draw_odds': 4.50, 'loss_odds': 7.25},
+{'fixture': 'Fleetwood vs Carlisle', 'win_probability': 0.58, 'draw_probability': 0.21, 'loss_probability': 0.19, 'win_odds': 1.83, 'draw_odds': 3.5, 'loss_odds': 4},
+{'fixture': 'Notts vs Bromley', 'win_probability': 0.50, 'draw_probability': 0.25, 'loss_probability': 0.24, 'win_odds': 1.87, 'draw_odds': 3.65, 'loss_odds': 3.65},
+{'fixture': 'Tranmere vs Gillingham', 'win_probability': 0.38, 'draw_probability': 0.26, 'loss_probability': 0.35, 'win_odds': 2.3, 'draw_odds': 3, 'loss_odds': 3.15}
