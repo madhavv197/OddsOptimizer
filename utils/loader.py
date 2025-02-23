@@ -17,6 +17,19 @@ def load_matches_from_file(file_path):
             matches.append(match)
     return matches
 
+def load_matches_from_files(file_paths):
+    matches = []
+    for file_path in file_paths:
+        with open(file_path, 'r') as file:
+            content = file.read()
+            entries = content.split('},')
+            for entry in entries:
+                if not entry.strip().endswith('}'):
+                    entry += '}'
+                match = ast.literal_eval(entry.strip())
+                matches.append(match)
+    return matches
+
 def generate_outcomes(match):
     return [
         {'fixture': match['fixture'], 'outcome': 'Win', 'probability': match['win_probability'], 'odds': match['win_odds']},
@@ -26,9 +39,10 @@ def generate_outcomes(match):
 
 def load_matches_from_folder():
     matchdays = os.listdir('data/season2425')
+    print(matchdays)
     matchday_data = []
     for matchday in matchdays:
-        matchday_data.append(load_matches_from_file(os.path.join('data/season2425', matchday)))
+        matchday_data.append(load_matches_from_file(os.path.join('data/season2425/', matchday)))
     return matchday_data
 
 

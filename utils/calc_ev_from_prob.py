@@ -14,7 +14,7 @@ def calculate_parlay_ev(parlay):
     loss = 1 
 
     ev = total_probability * profit - (1 - total_probability) * loss
-    return ev, total_probability, combined_odds
+    return ev, total_probability, combined_odds 
 
 if __name__ == '__main__':
     ev = calculate_parlay_ev(parlay)
