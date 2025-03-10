@@ -9,7 +9,7 @@ project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.append(project_root)
 
 from utils.kelly import kelly_criterion
-from utils.loader import generate_outcomes, load_matches_from_files, load_matches_from_file
+from utils.loader import generate_outcomes, load_matches_from_files
 from utils.calc_ev_from_prob import calculate_parlay_ev
 
 def generate_outcomes(match, league_prefix):
@@ -78,22 +78,11 @@ def filter_highest_probability_bets(single_bets):
 
 
 if __name__ == '__main__':
-    # match_files = [
-    #     "data/bun_season2425/matchday_19.txt",
-    #     "data/cha_season2425/matchday_29.txt",
-    #     "data/leo_season2425/matchday_28.txt",
-    #     "data/let_season2425/matchday_28.txt",
-    #     "data/ll_season2425/matchday_21.txt",
-    #     "data/fl_season2425/matchday_19.txt",
-    #     "data/pl_season2425/matchday_23.txt",
-    #     "data/sea_season2425/matchday_22.txt"
-    # ]
-
     match_files = [
-                   "data/ucl_season2425/matchday_8.txt",
-                   "data/let_season2425/matchday_29.txt",
-                   "data/uel_season2425/matchday_8.txt",
-                   "data/leo_season2425/matchday_29.txt"]
+        "data/epl/matchday_23.txt"
+    ]
+    #bet_folder = "/Users/madhavv/Projects/OddsOptimizer/OddsOptimizer/data/bun"
+    #match_files = [os.path.join(bet_folder, f) for f in os.listdir(bet_folder) if f.startswith("matchday_") and f.endswith(".txt")]
     #
     current_capital = 54
 
@@ -110,23 +99,50 @@ if __name__ == '__main__':
         "uel": "UEFA Europa League"
     }
 
-    pattern = r"data/([a-z]{2,3})_season"
+    pattern = r"data/([a-z]{2,3})"
 
     all_matches = []
     for match_file in match_files:
         league_code = re.search(pattern, match_file).group(1)
         league_prefix = league_mapping.get(league_code, "Unknown League")
         matches = load_matches_from_files([match_file])
+        
         for match in matches:
             match['league_prefix'] = league_code
+        
         all_matches.extend(matches)
-    single_bets = test_all_parlays(all_matches, max_matches=1)
-    unique_bets = filter_highest_probability_bets(single_bets)
 
-    total_risk = total_kelly_risk(single_bets)
- 
-    best_multiplier, final_risk = find_best_multiplier(unique_bets, max_risk=current_capital*0.8*(len(unique_bets)/55), step=0.01)
+        # Run EV calculations
+        single_bets = test_all_parlays(matches, max_matches=1)
+        unique_bets = filter_highest_probability_bets(single_bets)
 
+        # Calculate risk and best multiplier
+        total_risk = total_kelly_risk(single_bets)
+        best_multiplier, final_risk = find_best_multiplier(
+            unique_bets, 
+            max_risk=current_capital * 0.8 * (len(unique_bets) / 55), 
+            step=0.01
+        )
+
+        # **Determine the output file name**
+        output_file = match_file.replace(".txt", "_bets.txt")
+
+        # **Write to the output file**
+        with open(output_file, "w") as f:
+            f.write(f"{'Fixture':<50}{'Outcome':<10}{'EV':<10}{'Probability':<12}{'Odds':<10}{'Kelly Stake':<10}\n")
+            f.write("-" * 80 + "\n")
+            for bet in unique_bets:
+                fixture = bet['parlay'][0]['fixture'].split('_')[1]
+                outcome = bet['parlay'][0]['outcome']
+                ev = bet['ev']
+                probability = bet['final_probability']
+                odds = bet['odds']
+                kelly_fraction = kelly_criterion(probability, odds, multiplier=best_multiplier)
+                kelly_stake = current_capital * 0.8 * (len(unique_bets) / 55) * kelly_fraction
+
+                f.write(f"{fixture:<50}{outcome:<10}{ev:<10.4f}{probability:<12.4f}{odds:<10.2f}{kelly_stake:<10.2f}\n")
+
+        print(f"Bets saved to {output_file}")
     bets_by_league = defaultdict(list)
     print("\n")
     print("==========================================")

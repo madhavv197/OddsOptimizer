@@ -3,19 +3,7 @@ import sys
 import os
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.append(project_root)
-from utils.kelly import kelly_criterion
 
-def load_matches_from_file(file_path):
-    matches = []
-    with open(file_path, 'r') as file:
-        content = file.read()
-        entries = content.split('},')
-        for entry in entries:
-            if not entry.strip().endswith('}'):
-                entry += '}'
-            match = ast.literal_eval(entry.strip())
-            matches.append(match)
-    return matches
 
 def load_matches_from_files(file_paths):
     matches = []
