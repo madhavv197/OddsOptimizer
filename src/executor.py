@@ -61,7 +61,40 @@ def login(page, username, password):
     
     print("\n✅ Login successful.")
 
-def place_bet(page, home_team, away_team, risk, bet, bet_odds):
+def initialize_placed_bets_file(today):
+    placed_bets_file = f"data/placed_bets_{today}.csv"
+    if not Path(placed_bets_file).exists():
+        df = pd.DataFrame(columns=[
+            "date", "date_placed", "league", "home_team", "away_team", 
+            "home_win_%", "draw_%", "away_win_%", "odds_home", "odds_draw", 
+            "odds_away", "bet", "de_normalized_risk", "normalized_risk", "ev"
+        ])
+        df.to_csv(placed_bets_file, index=False)
+    return placed_bets_file
+
+def record_bet(home_team, away_team, league, risk, bet, home_win, draw, away_win, odds_home, odds_draw, odds_away, de_norm_risk, date, ev, placed_bets_file):
+    placed_bets = pd.DataFrame({
+        "date": date,
+        "date_placed": [pd.Timestamp.now()],
+        "league": league,
+        "home_team": home_team,
+        "away_team": away_team,
+        "home_win_%": home_win,
+        "draw_%": draw,
+        "away_win_%": away_win,
+        "odds_home": odds_home,
+        "odds_draw": odds_draw,
+        "odds_away": odds_away,
+        "bet": bet,
+        "de_normalized_risk": de_norm_risk,
+        "normalized_risk": risk,
+        "ev": ev
+    })
+
+    placed_bets.to_csv(placed_bets_file, mode='a', header=False, index=False)
+
+
+def place_bet(page, home_team, away_team, risk, bet, league, home_win, draw, away_win, odds_home, odds_draw, odds_away, de_norm_risk, date, ev, placed_bets_file):
     page.fill("[data-testid='search-field']", f"{home_team}, {away_team}")
     time.sleep(1)
     if bet == "home":
@@ -94,6 +127,9 @@ def place_bet(page, home_team, away_team, risk, bet, bet_odds):
 
     time.sleep(2)
 
+    record_bet(home_team, away_team, league, risk, bet, home_win, draw, away_win, odds_home, odds_draw, odds_away, de_norm_risk, date, ev, pending_bets, placed_bets_file)
+
+
 
 def normalize_risk(bet_list, current_balance, pending_bets):
     best_multiplier, final_total_risk = find_best_multiplier(bet_list, max_risk=0.9*current_balance, step=0.01)
@@ -120,7 +156,8 @@ def get_bet_list(pending_bets):
     return bet_list
 
 def place_all_pending_bets(pending_bets, username, password):
-
+    today = pd.Timestamp.now()
+    placed_bets_file = initialize_placed_bets_file(today)
     url = "https://sport.toto.nl/"
     
     p, browser, context, page = initialise(url)
@@ -133,15 +170,11 @@ def place_all_pending_bets(pending_bets, username, password):
 
     balance_element = page.query_selector(".account-menu-deposit-items")
     if balance_element:
-        balance_text = balance_element.inner_text().strip().replace("€", "").replace(",", ".")  # Convert to standard float format
-        try:
-            balance = float(balance_text)
-        except ValueError:
-            print("Error: Unable to parse balance from:", balance_text)
-            balance = 0.0  # Fallback value
+        balance_text = balance_element.inner_text().strip().replace("€", "").replace(",", ".") 
+        balance = float(balance_text)
     else:
         print("Balance not found.")
-        balance = 0.0  # Default value in case balance is not found
+        balance = 0.0
 
     bet_list = get_bet_list(pending_bets=pending_bets)
 
@@ -151,11 +184,27 @@ def place_all_pending_bets(pending_bets, username, password):
         home_team = row["home_team"]
         away_team = row["away_team"]
         risk = row["normalized_risk"]
-        bet_odds = row[f"odds_{row["bet"]}"]
+        
+        bet_odds = row[f"odds_{row['bet']}"]
         bet_odds = str(bet_odds).replace(".", ",")
         bet = row["bet"]
-        print(bet_odds)
-        place_bet(page, home_team, away_team, risk, bet, bet_odds)
+
+        league = row["league"]
+        home_win = row["home_win_%"]
+        draw = row["draw_%"]
+        away_win = row["away_win_%"]
+        odds_home = row["odds_home"]
+        odds_draw = row["odds_draw"]
+        odds_away = row["odds_away"]
+        de_norm_risk = row["de_normalized_risk"]
+        date = row["date"]
+        ev = row["ev"]
+        place_bet(
+    page, home_team, away_team, risk, bet, 
+    league, home_win, draw, away_win, 
+    odds_home, odds_draw, odds_away, 
+    de_norm_risk, date, ev, placed_bets_file
+)
 
     time.sleep(30)
 
@@ -165,5 +214,5 @@ def place_all_pending_bets(pending_bets, username, password):
 if __name__ == "__main__":
     pending_bets = pd.read_csv("data/pending_bets.csv")
     username = "madhavv197@gmail.com"
-    password = "vIjay007007!"
+    password = "password"
     place_all_pending_bets(pending_bets=pending_bets, username=username, password=password)
