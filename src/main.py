@@ -15,7 +15,7 @@ def main():
     
     pending_bets = pd.read_csv("data/pending_bets.csv")
     username = "madhavv197@gmail.com"
-    password = "password"
+    password = "vIjay007007!"
 
     executor.place_all_pending_bets(pending_bets=pending_bets, username=username, password=password)
 

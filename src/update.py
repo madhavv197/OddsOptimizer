@@ -9,6 +9,14 @@ sys.path.append(project_root)
 
 from utils.kelly import kelly_criterion
 
+def check_pending_bets(pending_bets):
+    if len(pending_bets) != 0:
+        option = str(input(("pending bets not empty, and all entries will be erased if you continue. Continue? (Y/N)")))
+        if option.upper() == "Y":
+            pass
+        else:
+            exit()
+
 pd.set_option('display.max_columns', None)
 
 def calculate_ev(prob, odds):
@@ -71,6 +79,53 @@ def add_future_matches(future_matches, pending_bets):
             home_team = "Manchester United"
         elif away_team == "Man Utd":
             away_team = "Manchester United"
+        
+        if home_team == "Grimsby":
+            home_team = "Grimsby Town"
+        elif away_team == "Grimsby":
+            away_team = "Grimsby Town"
+            
+        if home_team == "Notts":
+            home_team = "Notts County"
+        elif away_team == "Notts":
+            away_team = "Notts County"
+            
+        if home_team == "Birmingham":
+            home_team = "Birmingham City"
+        elif away_team == "Birmingham":
+            away_team = "Birmingham City"
+            
+        if home_team == "Sheff Utd":
+            home_team = "Sheffield United"
+        elif away_team == "Sheff Utd":
+            away_team = "Sheffield United"
+        
+        if home_team == "Cambridge Utd":
+            home_team = "Cambridge United"
+        elif away_team == "Cambridge Utd":
+            away_team = "Cambridge United"
+            
+        if home_team == "Bodø/Glimt":
+            home_team = "Bodo"
+        elif away_team == "Bodø/Glimt":
+            away_team = "Bodo"
+            
+        if home_team == "Olympiakos":
+            home_team = "Olympiacos Piraeus"
+        elif away_team == "Olympiakos":
+            away_team = "Olympiacos Piraeus"
+
+        if home_team == "Athletic Club":
+            home_team = "Athletic Bilbao"
+        elif away_team == "Athletic Club":
+            away_team = "Atheltic Bilbao"
+        
+        if home_team == "Roma":
+            home_team = "AS Roma"
+        elif away_team == "Roma":
+            away_team = "AS Roma"
+                       
+        
 
         match_date = match["date"]
         match_league = match["league"]
@@ -188,6 +243,9 @@ def calc_ev_risk(pending_bets, current_balance):
 
 
 def update_bets(placed_bets, pending_bets, past_bets, future_matches, past_matches, odds_by_league, current_balance):
+    check_pending_bets(pending_bets=pending_bets)
+    pending_bets.drop(pending_bets.index, inplace=True)
+    
     print("\n")
     print("Moving completed bets from placed bets to past bets...")
     placed_bets, past_bets = move_completed_bets(placed_bets=placed_bets,past_bets=past_bets)
@@ -221,6 +279,8 @@ def update_bets(placed_bets, pending_bets, past_bets, future_matches, past_match
     print(pending_bets)
     
     save_updated_csvs(pending_bets=pending_bets,past_bets=past_bets)
+    
+
 
 def save_updated_csvs(pending_bets, past_bets):
     pending_bets = pending_bets[pending_bets["ev"] > 0]
@@ -228,7 +288,7 @@ def save_updated_csvs(pending_bets, past_bets):
     past_bets.to_csv("data/past_bets.csv", index=False)
 
     print("CSV files saved successfully.")
-    
+
 
 if __name__ == "__main__":
     current_placed_bets = pd.read_csv("data/current_placed_bets.csv")

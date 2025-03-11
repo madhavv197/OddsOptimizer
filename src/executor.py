@@ -4,7 +4,7 @@ from pathlib import Path
 import time
 import random as rand
 import pandas as pd
-from ev_calc import find_best_multiplier
+
 
 
 SESSION_FILE = "session_cookies.json"
@@ -60,6 +60,16 @@ def login(page, username, password):
         time.sleep(rand.uniform(1.5, 2))
     
     print("\n✅ Login successful.")
+    
+
+
+def normalize_risk(max_risk, pending_bets):
+    multiplier = max_risk/sum(pending_bets["de_normalized_risk"])
+    
+    for idx, row in pending_bets.iterrows():
+        pending_bets.loc[idx, 'normalized_risk'] = row['de_normalized_risk'] * multiplier
+
+    return pending_bets
 
 def initialize_placed_bets_file(today):
     placed_bets_file = f"data/placed_bets_{today}.csv"
@@ -121,26 +131,13 @@ def place_bet(page, home_team, away_team, risk, bet, league, home_win, draw, awa
 
     time.sleep(1)
 
-    # Confirm the bet by clicking the OK button
     ok_button = page.locator("button:has-text('Plaats weddenschap')")
     ok_button.click()
 
     time.sleep(2)
 
-    record_bet(home_team, away_team, league, risk, bet, home_win, draw, away_win, odds_home, odds_draw, odds_away, de_norm_risk, date, ev, pending_bets, placed_bets_file)
+    record_bet(home_team, away_team, league, risk, bet, home_win, draw, away_win, odds_home, odds_draw, odds_away, de_norm_risk, date, ev, placed_bets_file)
 
-
-
-def normalize_risk(bet_list, current_balance, pending_bets):
-    best_multiplier, final_total_risk = find_best_multiplier(bet_list, max_risk=0.9*current_balance, step=0.01)
-
-    print(f"Best multiplier found: {best_multiplier} with total risk: {final_total_risk}")
-
-    for idx, row in pending_bets.iterrows():
-        if row["bet"] is not None:
-            pending_bets.loc[idx, 'normalized_risk'] = row['de_normalized_risk'] * best_multiplier
-
-    return pending_bets
 
 def get_bet_list(pending_bets):
     bet_list = []
@@ -175,15 +172,16 @@ def place_all_pending_bets(pending_bets, username, password):
     else:
         print("Balance not found.")
         balance = 0.0
+        
+    balance = 90.87
 
-    bet_list = get_bet_list(pending_bets=pending_bets)
-
-    pending_bets = normalize_risk(bet_list=bet_list, current_balance=balance, pending_bets=pending_bets)
-
+    pending_bets = normalize_risk(max_risk=balance*0.9, pending_bets=pending_bets)
+    
     for idx, row in pending_bets.iterrows():
         home_team = row["home_team"]
         away_team = row["away_team"]
-        risk = row["normalized_risk"]
+        risk = round(row["normalized_risk"], 2)
+        print(risk)
         
         bet_odds = row[f"odds_{row['bet']}"]
         bet_odds = str(bet_odds).replace(".", ",")
@@ -199,6 +197,7 @@ def place_all_pending_bets(pending_bets, username, password):
         de_norm_risk = row["de_normalized_risk"]
         date = row["date"]
         ev = row["ev"]
+        i=0
         place_bet(
     page, home_team, away_team, risk, bet, 
     league, home_win, draw, away_win, 
@@ -214,5 +213,5 @@ def place_all_pending_bets(pending_bets, username, password):
 if __name__ == "__main__":
     pending_bets = pd.read_csv("data/pending_bets.csv")
     username = "madhavv197@gmail.com"
-    password = "password"
+    password = "vIjay007007!"
     place_all_pending_bets(pending_bets=pending_bets, username=username, password=password)
