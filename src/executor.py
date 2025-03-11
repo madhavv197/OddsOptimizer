@@ -72,7 +72,7 @@ def normalize_risk(max_risk, pending_bets):
     return pending_bets
 
 def initialize_placed_bets_file(today):
-    placed_bets_file = f"data/placed_bets_{today}.csv"
+    placed_bets_file = f"data/placed_bets/placed_bets_{today}.csv"
     if not Path(placed_bets_file).exists():
         df = pd.DataFrame(columns=[
             "date", "date_placed", "league", "home_team", "away_team", 
@@ -155,6 +155,7 @@ def get_bet_list(pending_bets):
 def place_all_pending_bets(pending_bets, username, password):
     today = pd.Timestamp.now()
     placed_bets_file = initialize_placed_bets_file(today)
+
     url = "https://sport.toto.nl/"
     
     p, browser, context, page = initialise(url)
@@ -172,8 +173,6 @@ def place_all_pending_bets(pending_bets, username, password):
     else:
         print("Balance not found.")
         balance = 0.0
-        
-    balance = 90.87
 
     pending_bets = normalize_risk(max_risk=balance*0.9, pending_bets=pending_bets)
     

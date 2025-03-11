@@ -125,8 +125,6 @@ def add_future_matches(future_matches, pending_bets):
         elif away_team == "Roma":
             away_team = "AS Roma"
                        
-        
-
         match_date = match["date"]
         match_league = match["league"]
 
