@@ -1,13 +1,14 @@
 import os
 import pandas as pd
 from thefuzz import process
-from utils.get_data import get_future_matches, get_past_matches, get_odds
 import sys
 
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.append(project_root)
 
 from utils.kelly import kelly_criterion
+from utils.get_data import get_future_matches, get_past_matches, get_odds
+from utils.team_map import get_translation, get_reverse_translation
 
 def check_pending_bets(pending_bets):
     if len(pending_bets) != 0:
@@ -28,7 +29,7 @@ def get_best_match(name, choices, threshold=70):
 
 def move_completed_bets(placed_bets, past_bets):
     today = pd.Timestamp.now()
-    placed_bets["date"] = pd.to_datetime(placed_bets["date"])
+    placed_bets["date"] = pd.to_datetime(placed_bets["date"], format="%d/%m/%Y %H:%M")
     moved_bets = placed_bets[pd.to_datetime(placed_bets["date"]) < today]
     past_bets = pd.concat([past_bets, moved_bets], ignore_index=True)
     placed_bets = placed_bets[~placed_bets.index.isin(moved_bets.index)]
@@ -48,20 +49,25 @@ def calc_past_results(past_matches, past_bets):
         csv_away_teams = past_bets["away_team"].unique()
         all_csv_teams = set(csv_home_teams) | set(csv_away_teams)
         
-        matched_home = get_best_match(match["home_team"], all_csv_teams)
-        matched_away = get_best_match(match["away_team"], all_csv_teams)
+        matched_home = get_best_match(get_translation(match["home_team"]), all_csv_teams)
+        matched_away = get_best_match(get_translation(match["away_team"]), all_csv_teams)
         if matched_home and matched_away:
             one_week_ago = today - pd.Timedelta(days=7)
+            past_bets["date"] = pd.to_datetime(past_bets["date"], errors="coerce")
             mask = (past_bets["home_team"] == matched_home) & (past_bets["away_team"] == matched_away) & (past_bets["date"] >= one_week_ago)
             
             #print(f"Before update for {matched_home} vs {matched_away}:\n", past_bets.loc[mask])
-
-            past_bets.loc[mask, "home_goals_ft"] = int(match["home_goals"])
-            past_bets.loc[mask, "away_goals_ft"] = int(match["away_goals"])
+    
+            past_bets.loc[mask, "home_goals_ft"] = int(match["home_goals"].split()[0])
+            past_bets.loc[mask, "away_goals_ft"] = int(match["away_goals"].split()[0])
             past_bets.loc[mask, "outcome"] = str(match["outcome"])
-            past_bets.loc[mask, "profit"] = past_bets.loc[mask].apply(
+            past_bets.loc[mask, "return"] = past_bets.loc[mask].apply(
             lambda row: row["normalized_risk"] * row[f"odds_{row['bet']}"] if row["bet"] == row["outcome"] else -row["normalized_risk"], axis=1
         )
+            
+    past_bets = past_bets[["date", "league", "home_team", "away_team", "home_win_%", "draw_%", "away_win_%", 
+                           "odds_home", "odds_draw", "odds_away", "bet", "de_normalized_risk", "normalized_risk", "ev", 
+                           "home_goals_ft", "away_goals_ft", "outcome", "return"]]
     return past_bets
 
 def add_future_matches(future_matches, pending_bets):
@@ -70,60 +76,8 @@ def add_future_matches(future_matches, pending_bets):
         home_team = match["home_team"]
         away_team = match["away_team"]
 
-        if home_team == "QPR":
-            home_team = "Queens Park Rangers"
-        elif away_team == "QPR":  # Ensure away team is handled too
-            away_team = "Queens Park Rangers"
-
-        if home_team == "Man Utd":
-            home_team = "Manchester United"
-        elif away_team == "Man Utd":
-            away_team = "Manchester United"
-        
-        if home_team == "Grimsby":
-            home_team = "Grimsby Town"
-        elif away_team == "Grimsby":
-            away_team = "Grimsby Town"
-            
-        if home_team == "Notts":
-            home_team = "Notts County"
-        elif away_team == "Notts":
-            away_team = "Notts County"
-            
-        if home_team == "Birmingham":
-            home_team = "Birmingham City"
-        elif away_team == "Birmingham":
-            away_team = "Birmingham City"
-            
-        if home_team == "Sheff Utd":
-            home_team = "Sheffield United"
-        elif away_team == "Sheff Utd":
-            away_team = "Sheffield United"
-        
-        if home_team == "Cambridge Utd":
-            home_team = "Cambridge United"
-        elif away_team == "Cambridge Utd":
-            away_team = "Cambridge United"
-            
-        if home_team == "Bodø/Glimt":
-            home_team = "Bodo"
-        elif away_team == "Bodø/Glimt":
-            away_team = "Bodo"
-            
-        if home_team == "Olympiakos":
-            home_team = "Olympiacos Piraeus"
-        elif away_team == "Olympiakos":
-            away_team = "Olympiacos Piraeus"
-
-        if home_team == "Athletic Club":
-            home_team = "Athletic Bilbao"
-        elif away_team == "Athletic Club":
-            away_team = "Atheltic Bilbao"
-        
-        if home_team == "Roma":
-            home_team = "AS Roma"
-        elif away_team == "Roma":
-            away_team = "AS Roma"
+        home_team = get_translation(home_team)
+        away_team = get_translation(away_team)
                        
         match_date = match["date"]
         match_league = match["league"]
@@ -240,7 +194,7 @@ def calc_ev_risk(pending_bets, current_balance):
 
 
 
-def update_bets(placed_bets, pending_bets, past_bets, future_matches, past_matches, odds_by_league, current_balance):
+def update_bets(placed_bets, pending_bets, past_bets, future_matches, past_matches, odds_by_league, current_balance, quick_update = False):
     check_pending_bets(pending_bets=pending_bets)
     pending_bets.drop(pending_bets.index, inplace=True)
     
@@ -250,6 +204,11 @@ def update_bets(placed_bets, pending_bets, past_bets, future_matches, past_match
 
     print("Calculating results for past bets...")
     past_bets = calc_past_results(past_matches=past_matches, past_bets=past_bets)
+
+    if quick_update:
+        past_bets.to_csv("data/past_bets.csv", index=False)
+        print("Past bets updated.")
+        exit()
 
     print("Compiling data for future matches...")
     pending_bets = add_future_matches(future_matches=future_matches, pending_bets=pending_bets)
@@ -292,9 +251,11 @@ if __name__ == "__main__":
     current_placed_bets = pd.read_csv("data/current_placed_bets.csv")
     pending_bets = pd.read_csv("data/pending_bets.csv")
     past_bets = pd.read_csv("data/past_bets.csv")
-    odds_by_league = get_odds()
+    #odds_by_league = get_odds()
     #odds_by_league = [] # testing
     future_matches = get_future_matches()
+    print(future_matches)
+    exit()
     past_matches = get_past_matches()
     update_bets(placed_bets=current_placed_bets,pending_bets=pending_bets, past_bets=past_bets, future_matches=future_matches, past_matches=past_matches, odds_by_league=odds_by_league, current_balance=100)
     

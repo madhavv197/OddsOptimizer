@@ -63,12 +63,12 @@ def login(page, username, password):
     
 
 
-def normalize_risk(max_risk, pending_bets):
-    multiplier = max_risk/sum(pending_bets["de_normalized_risk"])
+def normalize_risk(max_risk, beta, pending_bets):
     
-    for idx, row in pending_bets.iterrows():
-        pending_bets.loc[idx, 'normalized_risk'] = row['de_normalized_risk'] * multiplier
-
+    pending_bets["normalized_risk"] = 1 + pending_bets["ev"] * beta
+        
+    pending_bets["normalized_risk"] = max_risk*pending_bets["normalized_risk"]/pending_bets["normalized_risk"].sum()
+        
     return pending_bets
 
 def initialize_placed_bets_file(today):
@@ -115,9 +115,15 @@ def place_bet(page, home_team, away_team, risk, bet, league, home_win, draw, awa
         bet_label = f"{away_team}"
 
     match_section = page.locator(f"div:has-text('{bet_label}')").locator("..")
-    bet_button = match_section.locator(f"[data-testid='outcome-button']:has-text('{bet_label}')")
-    bet_button.click()
+    try:
+        bet_button = match_section.locator(f"[data-testid='outcome-button']:has-text('{bet_label}')")
+        bet_button.click()
 
+    except Exception as E:
+        print(f"Found an error while trying to locate match {home_team} vs. {away_team}")
+        print("Most likely a naming mismatch.")
+        print(f"Error: {E}")
+        
     time.sleep(1)
 
     bet_slip = page.locator("[data-testid='leg-user-input-stake-wrapper']")
@@ -127,7 +133,10 @@ def place_bet(page, home_team, away_team, risk, bet, league, home_win, draw, awa
     #risk = 0.10 # testing
 
 
-    stake_input.fill(str(risk))
+    try:
+        stake_input.fill(str(risk))
+    except TimeoutError:
+        print(f"Coudnt find locator for : match {home_team} {away_team}")
 
     time.sleep(1)
 
@@ -173,14 +182,20 @@ def place_all_pending_bets(pending_bets, username, password):
     else:
         print("Balance not found.")
         balance = 0.0
-
-    pending_bets = normalize_risk(max_risk=balance*0.9, pending_bets=pending_bets)
+    if balance < 80.0:
+        max_risk = balance
+    else:
+        max_risk = 80 if len(pending_bets)  > 25 else balance * ((len(pending_bets) / 25))
+    
+    pending_bets = normalize_risk(max_risk=max_risk, beta=2, pending_bets=pending_bets)
+    
+    print(pending_bets)
     
     for idx, row in pending_bets.iterrows():
         home_team = row["home_team"]
         away_team = row["away_team"]
         risk = round(row["normalized_risk"], 2)
-        print(risk)
+        #print(risk)
         
         bet_odds = row[f"odds_{row['bet']}"]
         bet_odds = str(bet_odds).replace(".", ",")
@@ -202,8 +217,10 @@ def place_all_pending_bets(pending_bets, username, password):
     league, home_win, draw, away_win, 
     odds_home, odds_draw, odds_away, 
     de_norm_risk, date, ev, placed_bets_file
-)
-
+            )
+    print("\n")
+    print("All valid bets placed, check pending bets or log for any exceptions.")
+    
     time.sleep(30)
 
     browser.close()

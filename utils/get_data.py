@@ -1,21 +1,18 @@
 from datetime import datetime
-from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.chrome.options import Options
-
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from webdriver_manager.chrome import ChromeDriverManager
 from bs4 import BeautifulSoup
 import time
-import undetected_chromedriver as uc
-from selenium_stealth import stealth
 import random as rand
 from playwright.sync_api import sync_playwright
 import json
 from pathlib import Path
 import re
+import sys
+import os
+
+project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+sys.path.append(project_root)
+
+from utils.team_map import get_translation, get_reverse_translation
 
 
 SESSION_FILE = "session_cookies.json"
@@ -104,47 +101,65 @@ def get_future_matches():
         tbody = match.find("tbody")
         if not tbody:
             continue
-        
+
         rows = tbody.find_all("tr")
         if len(rows) < 2:
             continue
-        
-        # Extract Home Team Info (First Row)
+
+        # Extract Home Team
         home_team_span = rows[0].find("span")
         home_team = home_team_span.text.strip() if home_team_span else "Unknown"
 
-        tds_home = rows[0].find_all("td")
-        home_team = tds_home[0].text.strip() if len(tds_home) > 0 else "Unknown"
-        #print(tds_home[0].text.strip())
-        home_pr = tds_home[1].text.strip() if len(tds_home) > 1 else "Unknown"
-        #print(tds_home[1].text.strip())
-        home_win_prob = tds_home[2].text.strip() if len(tds_home) > 2 else "Unknown"
-        #print(tds_home[2].text.strip())
-        draw_td = tds_home[3].find_all("div")
-        draw_prob = draw_td[2].text.strip() if len(draw_td) > 1 else "Unknown" 
-        #print(draw_prob)
+        tds_home = rows[0].find_all("td", recursive=False)
 
-        # Extract Away Team Info (Second Row)
+        # Check if PR exists (Nations League doesn't have PR, other leagues do)
+        if len(tds_home) == 3:  # No PR case (e.g., Nations League)
+            home_win_prob = tds_home[1].text.strip()
+            draw_td = tds_home[2]
+        else:  # PR exists (e.g., Let and Leo)
+            home_pr = tds_home[1].text.strip()
+            try:
+                home_win_prob = tds_home[2].text.strip()
+            except:
+                home_win_prob = "0%"
+            try:
+                draw_td = tds_home[3]
+            except:
+                draw_td = None
+
+        # Extract Draw Probability
+        if draw_td:
+            draw_divs = draw_td.find_all("div")
+            draw_prob = draw_divs[2].text.strip() if len(draw_divs) > 1 else "Unknown"
+        else:
+            draw_prob = "0%"
+
+        # Extract Away Team
         away_team_span = rows[1].find("span")
         away_team = away_team_span.text.strip() if away_team_span else "Unknown"
 
-        tds_away = rows[1].find_all("td")
-        away_team = tds_away[0].text.strip() if len(tds_away) > 0 else "Unknown"
-        #print(tds_away[0].text.strip())
-        away_pr = tds_away[1].text.strip() if len(tds_away) > 0 else "Unknown"
-        #print(tds_away[1].text.strip())
-        away_win_prob = tds_away[2].text.strip() if len(tds_away) > 2 else "Unknown"
-        #print(tds_away[2].text.strip())
+        tds_away = rows[1].find_all("td", recursive=False)
+
+        if len(tds_away) == 2:  # No PR case
+            away_win_prob = tds_away[1].text.strip()
+        else:  # PR exists
+            away_pr = tds_away[1].text.strip()
+            away_win_prob = tds_away[2].text.strip()
+
+        # Print results for debugging
+        #print(f"Home Team: {home_team}, Home PR: {home_pr if 'home_pr' in locals() else 'N/A'}, Home Win Prob: {home_win_prob}")
+        #print(f"Away Team: {away_team}, Away PR: {away_pr if 'away_pr' in locals() else 'N/A'}, Away Win Prob: {away_win_prob}")
+        #print(f"Draw Probability: {draw_prob}")
 
         match_data = {
             "league": league_name,
             "date": match_date.strftime('%d/%m/%Y %H:%M'),
             "home_team": home_team,
-            "home_pr": home_pr,
+            "home_pr": home_pr if "home_pr" in locals() else 0,
             "home_win_prob": home_win_prob,
             "draw_prob": draw_prob,
             "away_team": away_team,
-            "away_pr": away_pr,
+            "away_pr": away_pr if 'away_pr' in locals() else 0,
             "away_win_prob": away_win_prob,
         }
         future_matches.append(match_data)
@@ -165,6 +180,7 @@ def get_past_matches():
             continue
 
         league_div = meta.find("div", class_="_match-card-right-label_1u4oy_83")
+        print(league_div)
         league_name = league_div.text.strip() if league_div else "Unknown"
 
         # Extract match date
@@ -218,7 +234,7 @@ def get_past_matches():
             "outcome": outcome,
         }
         past_matches.append(match_data)
-
+    print(past_matches)
     return past_matches
 
 def get_odds():
@@ -233,6 +249,7 @@ def get_odds():
         "ll": "https://sport.toto.nl/wedden/sport/570/spanje-laliga/wedstrijden",
         "li1": "https://sport.toto.nl/wedden/sport/911/frankrijk-ligue-1/wedstrijden",
         "bun": "https://sport.toto.nl/wedden/sport/577/duitsland-bundesliga/wedstrijden",
+        "nat": "https://sport.toto.nl/wedden/sport/9641/uefa-nations-league/wedstrijden"
     }
 
     #league_urls = {"ucl": "https://sport.toto.nl/wedden/sport/569/uefa-champions-league/wedstrijden"} # testing
@@ -281,3 +298,5 @@ def get_odds():
     #print(extracted_matches)
     return extracted_matches
 
+#get_future_matches()
+# get_past_matches()
