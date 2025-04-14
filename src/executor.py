@@ -229,5 +229,5 @@ def place_all_pending_bets(pending_bets, username, password):
 if __name__ == "__main__":
     pending_bets = pd.read_csv("data/pending_bets.csv")
     username = "madhavv197@gmail.com"
-    password = "vIjay007007!"
+    password = "password"
     place_all_pending_bets(pending_bets=pending_bets, username=username, password=password)
